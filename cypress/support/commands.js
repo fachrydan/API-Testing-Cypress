@@ -23,3 +23,31 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('loginViaAPI', (
+    email = Cypress.env('username'),
+    password = Cypress.env('password')
+) => {
+    cy.requset('POST', `${Cypress.env('http://zero.webappsecurity.com')}/login.html`,{
+        username: email,
+        password,
+    })
+    .then((Response)=> {
+        cy.setCookie('sessionId', Response.body.sessionId)
+        cy.setCookie('userId', Response.body.userId)
+        cy.setCookie('userName', Response.body.userName)
+        cy.visit('/#!/main')
+    })
+
+})
+
+
+Cypress.Commands.add(
+    "loginByApi",
+    (username, password = Cypress.env("defaultPassword")) => {
+      return cy.request("POST", `${Cypress.env("https://admin:admin@the-internet.herokuapp.com")}/basic_auth`, {
+        username,
+        password,
+      })
+    }
+  )

@@ -16,7 +16,6 @@ describe('Create New User & Validate Name Value', () => {
  
     it('API Test-validate Name value', function (){
         cy.request('https://pokeapi.co/api/v2/pokemon/25/').as('pokemon')
-        cy.get('@pokemon').its('body')
-        .should('include', {name:'pikachu'})
+        cy.get('@pokemon').its('body').should('include', {name:'pikachu'})
     })
 })
